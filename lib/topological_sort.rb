@@ -20,15 +20,19 @@ def topological_sort(vertices)
     end
 
     sorted = []
+    
     until queue.empty?
-        current = queue.pop
-        sorted << current
+      current = queue.pop
+      sorted << current
 
-        current.out_edges.each do |edge|
-            queue.enq(edge.to_vertex) if edge.to_vertex.in_edges.empty?
-            edge.destroy!
+      current.out_edges.each do |edge|
+        if edge.to_vertex.in_edges.empty?
+          queue.enq(edge.to_vertex)
         end
-        vertices.delete(current)
+        edge.destroy!
+      end
+      vertices.delete(current)
     end
+
     sorted
 end
